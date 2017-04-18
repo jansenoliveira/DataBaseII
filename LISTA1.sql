@@ -74,9 +74,14 @@
 		)
 
 	#7	
-		SELECT Pubs.dbo.titles.title FROM Pubs.dbo.titleauthor 
-		INNER JOIN Pubs.dbo.titles 
-		ON Pubs.dbo.titleauthor.title_id = Pubs.dbo.titles.title_id  
+		SELECT Pubs.dbo.titles.title, Pubs.dbo.publishers.pub_name, Pubs.dbo.authors.au_fname
+		FROM Pubs.dbo.titles 
+		INNER JOIN Pubs.dbo.titleauthor 
+		ON Pubs.dbo.titles.title_id = Pubs.dbo.titleauthor.title_id
+		INNER JOIN Pubs.dbo.publishers 
+		ON Pubs.dbo.titles.pub_id = Pubs.dbo.publishers.pub_id
+		INNER JOIN Pubs.dbo.authors 
+		ON Pubs.dbo.titleauthor.au_id = Pubs.dbo.authors.au_id		
 		WHERE Pubs.dbo.titleauthor.au_id IN
 		(
 			SELECT a.au_id FROM 
@@ -113,15 +118,14 @@
 			WHERE Pubs.dbo.titleauthor.title_id is NULL
 
 	#10
-		CREATE PROCEDURE Valor_total;1
-			@livro_id varchar(6)
 
+		CREATE PROCEDURE total_sales_by_book;1
+			@title_id VARCHAR(6)
 			AS
-
-			SELECT SUM(qty) from Pubs.dbo.sales
-			INNER JOIN Pubs.dbo.titles
+			SELECT SUM(Pubs.dbo.sales.qty * Pubs.dbo.titles.price) FROM Pubs.dbo.sales
+			INNER JOIN titles
 			ON Pubs.dbo.sales.title_id = Pubs.dbo.titles.title_id
-			GROUP BY Pubs.dbo.sales.title_id HAVING @livro_id = Pubs.dbo.sales.title_id
+			WHERE Pubs.dbo.sales.title_id = @title_id
 
 	#11
 		CREATE PROCEDURE total_royalties_autor;1
