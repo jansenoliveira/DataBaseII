@@ -75,8 +75,8 @@ UPDATE singleauthors SET au_fname = 'Black' WHERE au_id = '172-32-1176'
 
 /*Questao 10*/
 DROP VIEW singleauthors;
-CREATE VIEW singleauthors
 
+CREATE VIEW singleauthors
 WITH SCHEMABINDING,ENCRYPTION
 AS
 	SELECT authors.au_id, authors.au_fname, titleauthor.title_id, titles.title,authors.qty
