@@ -15,7 +15,7 @@ AS
 		ON Pubs.dbo.titleauthor.title_id = Pubs.dbo.titles.title_id
 		GROUP BY au_id
 	) i
-	WHERE Pubs.dbo.authors.au_id = au_id.au_id
+	WHERE Pubs.dbo.authors.au_id = i.au_id
 
 
 /*Questao 3*/
