@@ -46,7 +46,7 @@ RETURN(
 	FROM
 		SalesMonth(@month, @year) a
 	INNER JOIN
-		SalesMonth(@month, @year) b
+		SalesMonth(@month - 1, @year) b
 	ON 
 		a.ProductID = b.ProductID
 	WHERE 
@@ -62,6 +62,7 @@ AS
 RETURN (
 	SELECT
 		Production.ProductCategory.ProductCategoryID,
+		Production.ProductCategory.Name,
 		MONTH(Sales.SalesOrderHeader.OrderDate) as 'Mes',
 		YEAR(Sales.SalesOrderHeader.OrderDate) as 'Ano',
 		SUM(Sales.SalesOrderDetail.OrderQty) as 'Quantidade Total Vendida',
@@ -92,6 +93,7 @@ RETURN (
 		YEAR(Sales.SalesOrderHeader.OrderDate) = @year
 	GROUP BY
 			Production.ProductCategory.ProductCategoryID,
+			Production.ProductCategory.Name,
 			MONTH(Sales.SalesOrderHeader.OrderDate),
 			YEAR(Sales.SalesOrderHeader.OrderDate)
 )
@@ -99,3 +101,26 @@ RETURN (
 SELECT * FROM CategorySalesMonth(10,2001)
 
 /*Questao 4*/
+CREATE FUNCTION CategoryTopIncrease (@month int, @year int)
+RETURNS TABLE
+RETURN (
+	SELECT
+	a.ProductCategoryID,
+	a.Mes,
+	a.Ano,
+	b.[Quantidade Total Vendida] as 'Qtd vendida ano passado',
+	b.[Valor Total Vendido] as 'Valor total ano passado',
+	a.[Quantidade Total Vendida] as 'Qtd vendida ano atual',
+	a.[Valor Total Vendido] as 'Valor total ano atual',
+	100.0 * (a.[Quantidade Total Vendida] - b.[Quantidade Total Vendida])/b.[Quantidade Total Vendida] as '% de aumento'
+	FROM 
+		CategorySalesMonth (@month, @year) a
+	INNER JOIN
+		CategorySalesMonth (@month, @year - 1) b
+	ON
+		a.ProductCategoryID = b.ProductCategoryID
+	WHERE
+		a.[Valor Total Vendido] >= b.[Valor Total Vendido]
+)
+
+SELECT * FROM CategoryTopIncrease(10,2002)
