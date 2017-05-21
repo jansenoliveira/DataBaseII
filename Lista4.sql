@@ -29,6 +29,31 @@ RETURN (
 
 SELECT * FROM SalesMonth(10,2001)
 
+/*Questao 2*/
+CREATE FUNCTION SalesMonthIncrease(@month int, @year int)
+RETURNS TABLE
+AS
+RETURN(
+	SELECT
+		a.ProductID,
+		a.Mes,
+		a.Ano,
+		b.SumOrderQty as 'Qtd Vendida-mês anterior',
+		b.SumPrice as 'Valor Total Vendido-mês anterior',
+		a.SumOrderQty as 'Qtd Vendida-mês atual',
+		a.SumPrice as 'Valor Total Vendido-mês atual',
+		100.0 * (a.SumOrderQty - b.SumOrderQty)/b.SumOrderQty as '% de aumento'
+	FROM
+		SalesMonth(@month, @year) a
+	INNER JOIN
+		SalesMonth(@month, @year) b
+	ON 
+		a.ProductID = b.ProductID
+	WHERE 
+		a.[SumPrice] >= b.[SumPrice]
+)
+
+SELECT * FROM SalesMonthIncrease (10, 2001)
 
 /*Questao 3*/
 CREATE FUNCTION CategorySalesMonth (@month int, @year int)

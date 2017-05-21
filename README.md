@@ -14,17 +14,17 @@ Repositório dedicado para armazenar estudos e exercícios da matéria de Progra
 
 ### Adventure Works:
 
-1> RESTORE DATABASE AdventureWorks
-2> FROM DISK = '/var/opt/mssql/backup/AdventureWorks.bak'
-3> MOVE 'AdventureWorks_Data' TO '/var/opt/mssql/data/AdventureWorks_Data.mdf',
-4> MOVE 'AdventureWorks_Log' TO '/var/opt/mssql/data/AdventureWorks_Log.ldf'
-5> GO
+- 1> RESTORE DATABASE AdventureWorks
+- 2> FROM DISK = '/var/opt/mssql/backup/AdventureWorks.bak'
+- 3> MOVE 'AdventureWorks_Data' TO '/var/opt/mssql/data/AdventureWorks_Data.mdf',
+- 4> MOVE 'AdventureWorks_Log' TO '/var/opt/mssql/data/AdventureWorks_Log.ldf'
+- 5> GO
 
 
 ### Pubs
 
-1> RESTORE DATABASE Pubs
-2> FROM DISK = '/var/opt/mssql/backup/Pubs.bak'
-3> WITH MOVE 'Pubs' TO '/var/opt/mssql/data/Pubs.mdf',
-4> MOVE 'Pubs_Log' TO '/var/opt/mssql/data/Pubs_Log.ldf'
-5> GO
+- 1> RESTORE DATABASE Pubs
+- 2> FROM DISK = '/var/opt/mssql/backup/Pubs.bak'
+- 3> WITH MOVE 'Pubs' TO '/var/opt/mssql/data/Pubs.mdf',
+- 4> MOVE 'Pubs_Log' TO '/var/opt/mssql/data/Pubs_Log.ldf'
+- 5> GO
